@@ -1,0 +1,40 @@
+version: "3.7"
+services:
+    app:
+      build:
+        args:
+          user: work
+          uid: 1000
+        context: ./
+        dockerfile: Dockerfile
+      image: laravel-image
+      container_name: abelo-app
+      restart: unless-stopped
+      working_dir: /var/www/
+      volumes:
+        - ./:/var/www
+
+    db:
+      image: mysql:5.7.37
+      container_name: abelo-db
+      ports:
+        - "3306:3306"
+      restart: unless-stopped
+      environment:
+        MYSQL_DATABASE: ${DB_DATABASE:-laravel}
+        MYSQL_ROOT_PASSWORD: ${DB_PASS:-secret}
+        MYSQL_PASSWORD: ${DB_PASS:-secret}
+        SERVICE_TAGS: dev
+        SERVICE_NAME: mysql
+      volumes:
+        - ./docker/mysql:/docker-entrypoint-initdb.d
+
+    nginx:
+      image: nginx:1.21.6-alpine
+      container_name: abelo-nginx
+      restart: unless-stopped
+      ports:
+        - 8000:80
+      volumes:
+        - ./:/var/www
+        - ./docker/nginx:/etc/nginx/conf.d
