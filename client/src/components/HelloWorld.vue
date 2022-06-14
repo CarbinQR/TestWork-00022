@@ -1,18 +1,10 @@
 <template>
- <auth-component></auth-component>
+  <h1>Jskj</h1>
 </template>
 
 <script>
-import AuthComponent from "@/components/auth/AuthComponent";
 export default {
   name: 'HelloWorld',
-  components:
-      {
-        AuthComponent
-      },
-  props: {
-    msg: String
-  }
 }
 </script>
 
