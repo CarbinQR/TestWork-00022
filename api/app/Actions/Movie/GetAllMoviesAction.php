@@ -4,27 +4,25 @@ declare(strict_types=1);
 
 namespace App\Actions\Movie;
 
+use App\Constant\MovieConstant;
 use App\Repositories\Movie\MovieRepositoryInterface;
-use Illuminate\Support\Facades\Auth;
 
-final class GetMoviesByUserAction
+final class GetAllMoviesAction
 {
     private MovieRepositoryInterface $movieRepositoryInterface;
 
     public function __construct(
         MovieRepositoryInterface $movieRepositoryInterface
-    )
-    {
+    ) {
         $this->movieRepositoryInterface = $movieRepositoryInterface;
     }
 
-    public function execute(GetMoviesByUserRequest $request): GetMoviesByUserResponse
+    public function execute(GetAllMoviesRequest $request): GetAllMoviesResponse
     {
-        $movies = $this->movieRepositoryInterface->findCollectionByUser(
-            Auth::id(),
-            $request->getOrderDirection()
+        $movies = $this->movieRepositoryInterface->getAllWithPaginate(
+            $request->getOrderDirection() ?: MovieConstant::DEFAULT_ORDER_DIRECTION
         );
 
-        return new GetMoviesByUserResponse($movies);
+        return new GetAllMoviesResponse($movies);
     }
 }

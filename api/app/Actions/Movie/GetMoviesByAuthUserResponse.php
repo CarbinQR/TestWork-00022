@@ -6,7 +6,7 @@ namespace App\Actions\Movie;
 
 use Illuminate\Pagination\LengthAwarePaginator;
 
-final class GetMoviesByUserResponse
+final class GetMoviesByAuthUserResponse
 {
     private LengthAwarePaginator $movies;
 

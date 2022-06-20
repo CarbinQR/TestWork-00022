@@ -1,17 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Auth;
 
 final class LoginResponse
 {
     private string $accessToken;
     private string $tokenType;
-    private string $expiresIn;
+    private int $expiresIn;
 
     public function __construct(
         string $accessToken,
         string $tokenType,
-        string $expiresIn
+        int $expiresIn
     ) {
         $this->accessToken = $accessToken;
         $this->tokenType = $tokenType;

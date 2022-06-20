@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\Validator;
@@ -15,14 +17,14 @@ class ApiFormRequest extends FormRequest
         return true;
     }
 
-    protected function failedValidation(Validator $validator)
+    protected function failedValidation(Validator $validator): void
     {
         $errors = (new ValidationException($validator))->errors();
 
         throw new HttpResponseException(response()->json([
-            "success" => false,
-            "message" => "Validation failed",
-            'fails' => $errors
+            'success' => false,
+            'message' => 'Validation failed',
+            'fails' => $errors,
         ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY));
     }
 }

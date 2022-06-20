@@ -12,8 +12,8 @@ final class UserNotFoundException extends Exception
     {
         return response()->json(
             [
-                "success" => false,
-                "message" => "User not found"
+                'success' => false,
+                'message' => 'User not found',
             ],
             404
         );

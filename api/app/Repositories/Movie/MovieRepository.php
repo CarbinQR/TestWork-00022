@@ -1,30 +1,45 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repositories\Movie;
 
 use App\Constant\MovieConstant;
+use App\Exceptions\Movie\MovieNotFoundException;
 use App\Models\Movie;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
 
 final class MovieRepository implements MovieRepositoryInterface
 {
-    public function save(Movie $product): Movie
-    {
-        $product->save();
-
-        return $product;
+    public function getAllWithPaginate(
+        ?string $orderDirection = MovieConstant::DEFAULT_ORDER_DIRECTION
+    ): LengthAwarePaginator {
+        return Movie::orderBy(MovieConstant::DEFAULT_ORDER_COLUMN, $orderDirection)
+            ->paginate(MovieConstant::DEFAULT_PER_PAGE);
     }
 
-    public function update(Movie $product): Movie
+    public function save(Movie $movie): Movie
     {
-        $product->update();
+        Auth::user()->movies()->save($movie);
 
-        return $product;
+        return $movie;
     }
 
-    public function delete(Movie $product): void
+    public function update(Movie $movie): Movie
     {
-        $product->delete();
+        if (!policy(Movie::class)->update($movie)) {
+            throw new MovieNotFoundException();
+        }
+
+        $movie->update();
+
+        return $movie;
+    }
+
+    public function delete(Movie $movie): void
+    {
+        $movie->delete();
     }
 
     public function getById(int $id): ?Movie
@@ -45,12 +60,11 @@ final class MovieRepository implements MovieRepositoryInterface
     }
 
     public function findCollectionByUser(
-        int     $userId,
+        int $userId,
         ?string $orderDirection = MovieConstant::DEFAULT_ORDER_DIRECTION
-    ): LengthAwarePaginator
-    {
+    ): LengthAwarePaginator {
         return Movie::where('user_id', $userId)
-            ->orderBy(MovieConstant::DEFAULT_ORDER_COLUMN, MovieConstant::DEFAULT_ORDER_DIRECTION)
+            ->orderBy(MovieConstant::DEFAULT_ORDER_COLUMN, $orderDirection)
             ->paginate(MovieConstant::DEFAULT_PER_PAGE);
     }
 }

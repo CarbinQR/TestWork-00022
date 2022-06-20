@@ -12,8 +12,8 @@ final class UserNotAuthorizedException extends Exception
     {
         return response()->json(
             [
-                "success" => false,
-                "message" => "User not authorized!"
+                'success' => false,
+                'message' => 'User not authorized!',
             ],
             401
         );

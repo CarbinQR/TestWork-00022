@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests\Auth;
 
 use App\Http\Requests\ApiFormRequest;
@@ -12,14 +14,14 @@ final class AuthSignUpValidatorRequest extends ApiFormRequest
         return [
             'login' => 'required|min:3|unique:users',
             'password' => 'min:3|max:60',
-            'password_confirmation' => 'required_with:password|same:password|min:3|max:60',
+            'passwordConfirmation' => 'required_with:password|same:password|min:3|max:60',
             'email' => [
                 'required',
                 'unique:users',
                 'min:3',
                 'max:100',
-                new EmailRfcValidationRule()
-            ]
+                new EmailRfcValidationRule(),
+            ],
         ];
     }
 }

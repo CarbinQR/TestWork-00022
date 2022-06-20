@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Exceptions\User;
+namespace App\Exceptions\Movie;
 
 use Exception;
 
@@ -12,8 +12,8 @@ final class MovieAlreadyExistException extends Exception
     {
         return response()->json(
             [
-                "success" => false,
-                "message" => $this->getMessage() ?: "Movie already exist in collection"
+                'success' => false,
+                'message' => $this->getMessage() ?: 'Movie already exist in collection',
             ],
             409
         );

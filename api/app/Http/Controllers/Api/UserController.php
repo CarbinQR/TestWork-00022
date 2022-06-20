@@ -1,17 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\ApiBaseController;
-use Illuminate\Http\JsonResponse;
 use App\Actions\User\GetAllUsersAction;
 use App\Actions\User\GetUserByIdAction;
 use App\Actions\User\GetUserByIdRequest;
+use App\Http\Controllers\ApiBaseController;
 use App\Http\Presenters\User\UserArrayPresenter;
+use Illuminate\Http\JsonResponse;
 
 final class UserController extends ApiBaseController
 {
-    public function getAllUsers(
+    public function getAll(
         GetAllUsersAction $getAllUsersAction,
         UserArrayPresenter $userArrayPresenter
     ): JsonResponse {
@@ -22,13 +24,14 @@ final class UserController extends ApiBaseController
 
         return $this->successResponse($presenter);
     }
-    public function getUserById(
+
+    public function getByUserId(
         GetUserByIdAction $getUserByIdAction,
         UserArrayPresenter $userArrayPresenter,
-        string $userId
+        string $id
     ): JsonResponse {
         $user = $getUserByIdAction
-            ->execute(new GetUserByIdRequest((int) $userId))
+            ->execute(new GetUserByIdRequest((int)$id))
             ->getResponse();
         $presenter = $userArrayPresenter->present($user);
 

@@ -1,10 +1,10 @@
-import Vuex from 'vuex';
+import { createStore } from 'vuex'
 import AuthService from './modules/auth';
-import notification from './modules/notification';
+import MovieService from './modules/movie';
 
-export default new Vuex.Store({
+export default new createStore({
   modules: {
     AuthService,
-    notification,
+    MovieService
   }
 });

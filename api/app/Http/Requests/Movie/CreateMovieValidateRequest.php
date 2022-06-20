@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests\Movie;
 
 use App\Http\Requests\ApiFormRequest;
 
-class CreateMovieValidateRequest extends ApiFormRequest
+final class CreateMovieValidateRequest extends ApiFormRequest
 {
     public function rules(): array
     {

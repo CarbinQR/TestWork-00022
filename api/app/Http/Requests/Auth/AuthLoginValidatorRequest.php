@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests\Auth;
 
 use App\Http\Requests\ApiFormRequest;
@@ -16,8 +18,8 @@ final class AuthLoginValidatorRequest extends ApiFormRequest
                 'exists:users,email',
                 'min:3',
                 'max:100',
-                new EmailRfcValidationRule()
-            ]
+                new EmailRfcValidationRule(),
+            ],
         ];
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -20,9 +22,9 @@ class Movie extends Model
         'release_date',
     ];
 
-    public function user(): BelongsTo
+    public function author(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     public function getId(): int
@@ -42,7 +44,7 @@ class Movie extends Model
 
     public function getIsLiked(): bool
     {
-        return $this->is_liked;
+        return (bool)$this->is_liked;
     }
 
     public function getReleaseDate(): string

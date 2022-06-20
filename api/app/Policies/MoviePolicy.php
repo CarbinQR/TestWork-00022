@@ -1,18 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
-use App\Exceptions\User\PageNotFoundException;
 use App\Models\Movie;
-use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Support\Facades\Auth;
 
 final class MoviePolicy
 {
     use HandlesAuthorization;
 
-    public function update(User $user, Movie $movie): bool
+    public function update(Movie $movie): bool
     {
-        return $user->id === $movie->user_id ?: throw  new PageNotFoundException();
+        return Auth::id() === $movie->user_id;
     }
 }

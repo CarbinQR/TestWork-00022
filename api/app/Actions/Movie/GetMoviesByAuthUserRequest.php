@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Movie;
 
-final class GetMoviesByUserRequest
+final class GetMoviesByAuthUserRequest
 {
     private ?string $orderDirection;
 

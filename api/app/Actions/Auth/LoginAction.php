@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Auth;
 
-use Illuminate\Auth\AuthenticationException;
 use App\Exceptions\User\UserNotFoundException;
 use App\Repositories\User\UserRepositoryInterface;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Auth;
 
 final class LoginAction
@@ -30,7 +32,6 @@ final class LoginAction
         ];
 
         $token = $this->guard()->attempt($credentials);
-
 
         if (!$token) {
             throw new AuthenticationException();

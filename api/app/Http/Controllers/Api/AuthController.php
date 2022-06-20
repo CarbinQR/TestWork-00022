@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api;
 
 use App\Actions\Auth\GetAuthenticatedUserAction;
@@ -18,10 +20,11 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 final class AuthController extends ApiBaseController
 {
     public function register(
-        AddUserAction              $addUserAction,
-        AuthSignUpValidatorRequest $request
-    ): JsonResponse
-    {
+        AddUserAction $addUserAction,
+        LoginAction $loginAction,
+        AuthSignUpValidatorRequest $request,
+        AuthResponseArrayPresenter $authResponseArrayPresenter
+    ): JsonResponse {
         $addUserAction
             ->execute(new AddUserRequest(
                 $request->login,
@@ -29,41 +32,45 @@ final class AuthController extends ApiBaseController
                 $request->password
             ));
 
-        return $this->successResponse(['msg' => 'OK']);
-    }
-
-    public function login(
-        AuthLoginValidatorRequest  $request,
-        LoginAction                $loginAction,
-        AuthResponseArrayPresenter $authResponseArrayPresenter
-    ): JsonResponse
-    {
-        $response = $loginAction->execute(
+        $loggedUser = $loginAction->execute(
             new LoginRequest(
                 $request->email,
                 $request->password,
             )
         );
 
-        return $this->successResponse($authResponseArrayPresenter->present($response));
+        return $this->successResponse($authResponseArrayPresenter->present($loggedUser));
+    }
+
+    public function login(
+        AuthLoginValidatorRequest $request,
+        LoginAction $loginAction,
+        AuthResponseArrayPresenter $authResponseArrayPresenter
+    ): JsonResponse {
+        $loggedUser = $loginAction->execute(
+            new LoginRequest(
+                $request->email,
+                $request->password,
+            )
+        );
+
+        return $this->successResponse($authResponseArrayPresenter->present($loggedUser));
     }
 
     public function me(
         GetAuthenticatedUserAction $getAuthenticatedUserAction,
-        UserArrayPresenter         $userArrayPresenter
-    ): JsonResponse
-    {
-        $response = $getAuthenticatedUserAction->execute();
+        UserArrayPresenter $userArrayPresenter
+    ): JsonResponse {
+        $loggedUser = $getAuthenticatedUserAction->execute();
 
-        return $this->successResponse($userArrayPresenter->present($response->getUser()));
+        return $this->successResponse($userArrayPresenter->present($loggedUser->getUser()));
     }
 
     public function logout(
         LogoutAction $logoutAction
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $logoutAction->execute();
 
-        return $this->successResponse(['msg' => 'Logged out Successfully.']);
+        return $this->successResponse(['message' => 'Logged out Successfully.']);
     }
 }

@@ -23,9 +23,7 @@ final class UserArrayPresenter
     {
         return $collection
             ->map(
-                function (User $user) {
-                    return $this->present($user);
-                }
+                fn (User $user) => $this->present($user)
             )
             ->all();
     }

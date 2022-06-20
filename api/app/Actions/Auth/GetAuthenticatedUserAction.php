@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Auth;
 
 use Illuminate\Support\Facades\Auth;
 
-class GetAuthenticatedUserAction
+final class GetAuthenticatedUserAction
 {
     public function execute(): GetAuthenticatedUserResponse
     {

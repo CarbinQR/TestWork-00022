@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repositories\Movie;
 
 use App\Models\Movie;
@@ -17,5 +19,7 @@ interface MovieRepositoryInterface
 
     public function findByCriteria(array $criteria): ?Movie;
 
-    public function findCollectionByUser(int $userId, string $orderDirection): LengthAwarePaginator;
+    public function findCollectionByUser(int $userId, ?string $orderDirection): LengthAwarePaginator;
+
+    public function getAllWithPaginate(?string $orderDirection): LengthAwarePaginator;
 }

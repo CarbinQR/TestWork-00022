@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Actions\User;
 
-use Auth;
-use App\Repositories\User\UserRepositoryInterface;
 use App\Exceptions\User\UserNotAuthorizedException;
+use App\Repositories\User\UserRepositoryInterface;
+use Illuminate\Support\Facades\Auth;
 
 final class GetAllUsersAction
 {

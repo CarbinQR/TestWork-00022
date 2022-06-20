@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Exceptions\User;
+namespace App\Exceptions\Auth;
 
 use Exception;
 
@@ -12,8 +12,9 @@ final class AuthenticationException extends Exception
     {
         return response()->json(
             [
-                "success" => false,
-                "message" => $this->getMessage() ?: "Invalid email or password"
+                'success' => false,
+                'message' => $this->getMessage() ?: 'Invalid email or password',
+                'code' => 409,
             ],
             409
         );

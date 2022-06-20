@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\FilmController;
 use App\Http\Controllers\Api\MovieController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,27 +17,33 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-Route::controller(AuthController::class)->prefix('auth')->group(function () {
+Route::controller(AuthController::class)->prefix('auth')->group(static function (): void {
     Route::post('sign-up', 'register');
     Route::post('login', 'login');
 
-    Route::middleware('auth:api')->group(function () {
+    Route::middleware('auth:api')->group(static function (): void {
         Route::post('logout', 'logout');
         Route::get('me', 'me');
     });
 });
 
 Route::controller(MovieController::class)
-    ->prefix('/movies')
+    ->group(static function (): void {
+        Route::get('movies', 'index');
+        Route::get('movies/movie', 'show');
+        Route::middleware('auth:api')
+            ->group(static function (): void {
+                Route::post('movies', 'store');
+                Route::patch('/moves/{movies}','update');
+                Route::delete('/moves/{movies}', 'destroy');
+                Route::get('movies/{userId}/my', 'getByAuthUser');
+            });
+    });
+
+Route::controller(UserController::class)
+    ->prefix('/users')
     ->middleware('auth:api')
-    ->group(function () {
-        Route::post('/', 'create');
-        Route::patch('/', 'update');
-        Route::delete('/', 'delete');
-        Route::get('/', 'getByAuthUser');
-        Route::get('/{id}', 'getById');
+    ->group(static function (): void {
+        Route::get('/', 'getAll');
+        Route::get('/{id}', 'getByUserId');
     });

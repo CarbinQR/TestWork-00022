@@ -12,8 +12,8 @@ final class MovieNotFoundException extends Exception
     {
         return response()->json(
             [
-                "success" => false,
-                "message" => $this->getMessage() ?: "Movie not found in collection"
+                'success' => false,
+                'message' => $this->getMessage() ?: 'Movie not found in collection',
             ],
             404
         );

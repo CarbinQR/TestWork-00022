@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Exceptions\User;
+namespace App\Exception;
 
 use Exception;
 
@@ -12,8 +12,8 @@ final class PageNotFoundException extends Exception
     {
         return response()->json(
             [
-                "success" => false,
-                "message" => $this->getMessage() ?: "Page not found"
+                'success' => false,
+                'message' => $this->getMessage() ?: 'Page not found',
             ],
             404
         );
