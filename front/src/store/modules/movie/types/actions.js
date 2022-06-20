@@ -1,0 +1,8 @@
+export const ADD_MOVIE = 'ADD_MOVIE';
+export const DELETE_MOVIE = 'DELETE_MOVIE';
+export const FETCH_MOVIE = 'FETCH_MOVIE';
+export const FETCH_MOVIES_LIST_BY_USER = 'UPDATE_MOVIE';
+export const FETCH_MOVIES_LIST = 'FETCH_MOVIES_LIST';
+export const UPDATE_MOVIE = 'UPDATE_MOVIE';
+export const CLEAR_MOVIES_LIST = 'CLEAR_MOVIES_LIST';
+
